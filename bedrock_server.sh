@@ -1,8 +1,7 @@
 #!/bin/bash
 
-set -ue
+: ${BASE_DIR:="$(cd $(dirname "$0"); pwd)"}
 
-BASE_DIR=$(cd $(basename "$0"); pwd)
 : ${I_AGREE_TO_MEULA_AND_PP:=""}
 
 __BEDROCK_SERVER_URL=""
@@ -46,10 +45,9 @@ function download_bedrock_server_latest_file() {
 }
 
 function build_docker_image() {
-	cd ${BASE_DIR}
 	local __bsv="$1"
-	docker build --build-arg BEDROCK_SERVER_VER="$__bsv" -t "bedrock:latest" .
-	docker build --build-arg BEDROCK_SERVER_VER="$__bsv" -t "bedrock:$__bsv" .
+	docker build --build-arg BEDROCK_SERVER_VER="$__bsv" -t "bedrock:latest" ${BASE_DIR}
+	docker build --build-arg BEDROCK_SERVER_VER="$__bsv" -t "bedrock:$__bsv" ${BASE_DIR}
 }
 
 function main() {
@@ -64,4 +62,8 @@ function main() {
 	fi
 }
 
-main
+if [ -z "${BS_IMPORT:-""}" ]; then
+	set -ue
+
+	main "$@"
+fi
