@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Specify the permanent directories.
+# These directories will load from docker volume and store to docker volume.
+# 永続化するディレクトリを指定。
+# これらのディレクトリは、 docker volume から読み込まれ、 docker volume に保存されます。
+__perm_dirs=("worlds")
+
+# Specify the permanent files.
+# These files will load from docker volume and store to docker volume.
+# 永続化するファイルを指定。
+# これらのファイルは、 docker volume から読み込まれ、 docker volume に保存されます。
+__perm_files=("whitelist.json" "permissions.json")
+
 cat <<__EOT__ > ./server.properties
 gamemode=${GAMEMODE:-"survival"}
 difficulty=${DIFFICULTY:-"easy"}
@@ -22,14 +34,18 @@ texturepack-required=${TEXTUREPACK_REQUIRED:-"false"}
 content-log-file-enabled=${CONTENT_LOG_FILE_ENABLED:-"false"}
 __EOT__
 
-for __dir in worlds
+# Prepare the permanent directories.
+# 永続化するディレクトリを準備する。
+for __dir in "${__perm_dirs[@]}"
 do
   [ ! -d /volume/${__dir} ] && mkdir /volume/${__dir}
   [ -d ./${__dir} ] && rmdir ./${__dir}
   ln -s /volume/${__dir} ./${__dir}
 done
 
-for __file in whitelist.json permissions.json
+# Prepare the permanent files.
+# 永続化するファイルを準備する。
+for __file in "${__perm_files[@]}"
 do
   [ ! -f /volume/${__file} ] && touch /volume/${__file}
   [ -f ./${__file} ] && rm ./${__file}
