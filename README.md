@@ -34,10 +34,10 @@ docker
     <name>	<port>	<volume>	<image>
     ```
 
-    *   <name> : コンテナ名です。後述する `env-files/*.env` のファイル名としても利用します。
-    *   <port> : コンテナが待ち受けるポート番号(udp)です。
-    *   <volume> : セーブデータ等を保存する Docker Volume の名前です。
-    *   <image> : コンテナが利用する Docker Image の名前です。 `bedrock:1.14.32.1`, `bedrock:latest` のように指定します。
+    *   &lt;name&gt; : コンテナ名です。後述する `env-files/*.env` のファイル名としても利用します。
+    *   &lt;port&gt; : コンテナが待ち受けるポート番号(udp)です。
+    *   &lt;volume&gt; : セーブデータ等を保存する Docker Volume の名前です。
+    *   &lt;image&gt; : コンテナが利用する Docker Image の名前です。 `bedrock:1.14.32.1`, `bedrock:latest` のように指定します。
         *   `bedrock:1.14.32.1` のように、特定のバージョンを指定した場合には、そのコンテナは指定したバージョンで動作し続けます。
         *   `bedrock:latest` と指定した場合には、そのコンテナは Docker Image が更新されるたびに `manage_containers.sh` により停止・再作成・起動され、常に最新版の bedrock-server で動作し続けます。
 
