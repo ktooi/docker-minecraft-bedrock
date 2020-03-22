@@ -12,9 +12,13 @@
 
 ### Prerequisites
 
+このプロジェクトを利用するためには、下記のソフトウェアやライブラリがセットアップされている必要があります。
+
 ```
 docker
 ```
+
+また、 bedrock-server を利用する為に、下記の利用規約にも同意する必要があります。
 
 *   [マインクラフト エンドユーザーライセンス規約](https://account.mojang.com/terms)
 *   [プライバシーポリシー](https://privacy.microsoft.com/ja-jp/privacystatement)
@@ -89,5 +93,7 @@ docker
 ### Connectiong
 
 ## Authors
+
+*   **Kodai Tooi** [GitHub](https://github.com/ktooi), [Qiita](https://qiita.com/ktooi)
 
 ## License
