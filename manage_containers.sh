@@ -1,9 +1,10 @@
 #!/bin/bash
 
 : ${BASE_DIR:="$(cd $(dirname $0); pwd)"}
-: ${BACKUP_DIR:="${BASE_DIR}/backup"}
 
+: ${BACKUP_DIR:="${BASE_DIR}/backup"}
 : ${CONTAINERS_LST:="${BASE_DIR}/containers.lst"}
+
 declare -a CONTAINERS
 
 function run_container() {
@@ -56,13 +57,13 @@ function remove_container() {
 
 function backup_volume() {
 	local __volume="$1"
+	# FYI : https://qiita.com/nishina555/items/bebcf76ca7890f257530
 	docker run --rm -v "${__volume}:/volume" -v "${BACKUP_DIR}:/backup" busybox tar cvzf "/backup/${__volume}.$(date +%Y%m%d%H%M%S).tar.gz" /volume
 }
 
 function is_up() {
 	local __id="$1"
 	[[ "$(docker ps -a -f "id=${__id}" --format '{{.Status}}')" =~ ^Up ]]
-	return $?
 }
 
 function main() {
@@ -98,4 +99,7 @@ function main() {
 	done
 }
 
-main
+if [ -z "${MC_IMPORT:-""}" ]; then
+	set -ue
+	main
+fi
