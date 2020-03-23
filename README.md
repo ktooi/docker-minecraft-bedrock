@@ -90,10 +90,10 @@ docker
 
     cron を設定することで、 Docker Image の最新化及び各コンテナへの適用を自動化することができます。
 
-    例えば、次のような cron エントリを `/etc/cron.d/docker-bedrock` として作成すると、毎朝4時に bedrock-server の更新チェックと、必要があればコンテナの更新作業が自動的に行われます。
+    例えば、次のような cron エントリを `/etc/cron.d/docker-minecraft-bedrock` として作成すると、毎朝4時に bedrock-server の更新チェックと、必要があればコンテナの更新作業が自動的に行われます。
 
    ```
-   0 4 * * * root /path/to/docker-bedrock/bedrock_server.sh --i-agree-to-meula-and-pp && /path/to/docker-bedrock/manage_containers.sh
+   0 4 * * * root /path/to/docker-minecraft-bedrock/bedrock_server.sh --i-agree-to-meula-and-pp && /path/to/docker-minecraft-bedrock/manage_containers.sh
    ```
 
 ### Connecting
