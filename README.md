@@ -86,7 +86,7 @@ docker
     # ./manage_containers.sh
     ```
     ここまでの手順で Minecraft 統合版サーバが起動され、 Minecraft のクライアントから接続できるようになりました。
-6.  [オプション] Minecraft 統合版サーバの自動起動を設定します。
+6.  [オプション] Minecraft 統合版サーバの自動更新を設定します。
 
     cron を設定することで、 Docker Image の最新化及び各コンテナへの適用を自動化することができます。
 
