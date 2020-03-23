@@ -1,4 +1,4 @@
-# docker-bedrock
+# docker-minecraft-bedrock
 
 このプロジェクトは、超簡単に Minecraft 統合版のサーバ (bedrock-server) を構築し、運用する為のものです。
 
