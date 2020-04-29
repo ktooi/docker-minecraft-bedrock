@@ -3,6 +3,10 @@
 : ${BASE_DIR:="$(cd $(dirname "$0"); pwd)"}
 
 : ${I_AGREE_TO_MEULA_AND_PP:=""}
+: ${REPOSITORY:="bedrock"}
+# BEDROCK_SERVER_DIR must be relative path.
+# BEDROCK_SERVER_DIR は相対パスでなければなりません。
+: ${BEDROCK_SERVER_DIR:="./downloads"}
 
 __BEDROCK_SERVER_URL=""
 __BEDROCK_SERVER_URL_VER_PAT='https:\/\/minecraft\.azureedge\.net\/bin-linux\/bedrock-server-([0-9]+\.[0-9]+\.[0-9]+\.[0-9])\.zip'
@@ -24,7 +28,7 @@ function get_bedrock_server_latest_ver() {
 }
 
 function has_bedrock_server_latest_file() {
-	[ -e ${BASE_DIR}/$(get_bedrock_server_latest_filename) ]
+	[ -e ${BASE_DIR}/${BEDROCK_SERVER_DIR}/$(get_bedrock_server_latest_filename) ]
 }
 
 function ask_agree_meula() {
@@ -37,7 +41,7 @@ function ask_agree_meula() {
 function download_bedrock_server_latest_file() {
 	ask_agree_meula
 	if [ "${I_AGREE_TO_MEULA_AND_PP}" == "yes" ]; then
-		wget $(get_bedrock_server_url) -O ${BASE_DIR}/$(get_bedrock_server_latest_filename)
+		wget $(get_bedrock_server_url) -O ${BASE_DIR}/${BEDROCK_SERVER_DIR}/$(get_bedrock_server_latest_filename)
 	else
 		echo "You must agree to Minecraft End User License Agreement and Privacy Policy."
 		return 1

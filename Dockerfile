@@ -1,6 +1,7 @@
 FROM busybox:latest as unzip
+ARG BEDROCK_SERVER_DIR=downloads
 ARG BEDROCK_SERVER_VER=1.12.1.1
-COPY bedrock-server-$BEDROCK_SERVER_VER.zip .
+COPY ${BEDROCK_SERVER_DIR}/bedrock-server-${BEDROCK_SERVER_VER}.zip .
 RUN mkdir -pv /usr/local/src/bedrock && unzip bedrock-server-$BEDROCK_SERVER_VER.zip -d /usr/local/src/bedrock
 
 
