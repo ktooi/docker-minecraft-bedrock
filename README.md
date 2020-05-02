@@ -26,37 +26,7 @@ docker
 ### Installing
 
 1.  このプロジェクトをダウンロードもしくはクローンし、展開したディレクトリに移動します。
-2.  コンテナを定義し、 Minecraft 統合版サーバの起動を準備します。
-
-    `containers.lst` ファイルを作成します。
-    `containers.lst` ファイルは起動する bedrock-server のコンテナを定義するファイルです。
-    1行につき1つのコンテナを示し、各行はタブ区切りで次のようにで記載します。
-
-    ```
-    <name>	<port>	<volume>	<image>
-    ```
-
-    *   &lt;name&gt; : コンテナ名です。後述する `env-files/*.env` のファイル名としても利用します。
-    *   &lt;port&gt; : コンテナが待ち受けるポート番号(udp)です。
-    *   &lt;volume&gt; : セーブデータ等を保存する Docker Volume の名前です。
-    *   &lt;image&gt; : コンテナが利用する Docker Image の名前です。 `bedrock:1.14.32.1`, `bedrock:latest` のように指定します。
-        *   `bedrock:1.14.32.1` のように、特定のバージョンを指定した場合には、そのコンテナは指定したバージョンで動作し続けます。
-        *   `bedrock:latest` と指定した場合には、そのコンテナは Docker Image が更新されるたびに `manage_containers.sh` により停止・再作成・起動され、常に最新版の bedrock-server で動作し続けます。
-
-    e.g.,
-
-    ```
-    example-be	19132	example-be-volume	bedrock:latest
-    ```
-3.  各コンテナの環境変数を定義します。
-
-    `env-files/<name>.env` ファイルを作成します。
-    `env-files/<name>.env` ファイルはコンテナの環境変数を定義するファイルです。
-    `docker run --env-file` として指定されます。
-    ファイル名の `<name>` には `containers.lst` で定義したものを指定してください。
-
-    利用可能なパラメータは `env-files/example.env` を参照してください。
-4.  Minecraft 統合版サーバの Docker Image を作成します。
+2.  Minecraft 統合版サーバの Docker Image を作成します。
 
     `bedrock_server.sh` を実行します。
     このスクリプトは最新版の bedrock-server-*.zip をダウンロードし、 Docker Image をビルドします。
@@ -75,6 +45,46 @@ docker
     ```shell-session
     # ./bedrock_server.sh --i-agree-to-meula-and-pp
     ```
+3.  コンテナを定義し、 Minecraft 統合版サーバの起動を準備します。
+
+    `containers.lst` ファイルを作成します。
+    `containers.lst` ファイルは起動する bedrock-server のコンテナを定義するファイルです。
+    1行につき1つのコンテナを示し、各行はタブ区切りで次のようにで記載します。
+
+    ```
+    <name>	<port>	<volume>	<image>
+    ```
+
+    *   &lt;name&gt; : コンテナ名です。後述する `env-files/*.env` のファイル名としても利用します。
+    *   &lt;port&gt; : コンテナが待ち受けるポート番号(udp)です。
+    *   &lt;volume&gt; : セーブデータ等を保存する Docker Volume の名前です。
+    *   &lt;image&gt; : コンテナが利用する Docker Image の名前です。 `bedrock:1.14.32.1`, `bedrock:latest` のように指定します。
+        *   利用可能なイメージやタグは次のコマンドで確認できます。
+
+            ```shell-session
+            # docker images bedrock
+            REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+            bedrock             1.14.60.5           cef587589e72        2 weeks ago         1.53GB
+            bedrock             latest              cef587589e72        2 weeks ago         1.53GB
+            bedrock             1.14.32.1           9b4d35d2da38        5 weeks ago         309MB
+            ```
+        *   `bedrock:1.14.32.1` のように、特定のバージョンを指定した場合には、そのコンテナは指定したバージョンで動作し続けます。
+        *   `bedrock:latest` と指定した場合には、そのコンテナは Docker Image が更新されるたびに `manage_containers.sh` により停止・再作成・起動され、常に最新版の bedrock-server で動作し続けます。
+
+    e.g.,
+
+    ```
+    example-be	19132	example-be-volume	bedrock:latest
+    ```
+    他の例が必要な場合は、 [containers.lst.example](containers.lst.example) も参照してみてください。
+4.  各コンテナの環境変数を定義します。
+
+    `env-files/<name>.env` ファイルを作成します。
+    `env-files/<name>.env` ファイルはコンテナの環境変数を定義するファイルです。
+    `docker run --env-file` として指定されます。
+    ファイル名の `<name>` には `containers.lst` で定義したものを指定してください。
+
+    利用可能なパラメータは `env-files/example.env` を参照してください。
 5.  `containers.lst` の定義に則り、コンテナを起動します。
 
     `manage_containers.sh` を実行します。
