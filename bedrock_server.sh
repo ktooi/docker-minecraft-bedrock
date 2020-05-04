@@ -50,8 +50,15 @@ function download_bedrock_server_latest_file() {
 
 function build_docker_image() {
 	local __bsv="$1"
-	docker build --build-arg BEDROCK_SERVER_VER="$__bsv" -t "bedrock:latest" ${BASE_DIR}
-	docker build --build-arg BEDROCK_SERVER_VER="$__bsv" -t "bedrock:$__bsv" ${BASE_DIR}
+	docker build --build-arg BEDROCK_SERVER_DIR="${BEDROCK_SERVER_DIR}" --build-arg BEDROCK_SERVER_VER="$__bsv" -t "${REPOSITORY}:$__bsv" ${BASE_DIR}
+}
+
+function get_latest_ver_of_image() {
+	docker images "${REPOSITORY}" --format '{{.Tag}}' | grep -v '^latest$' | sort -V | tail -n1 | sed -e "s/^[^ ]* //"
+}
+
+function set_latest_tag_to_latest_ver_image() {
+	docker tag "${REPOSITORY}:$(get_latest_ver_of_image)" "${REPOSITORY}:latest"
 }
 
 function main() {
@@ -64,6 +71,7 @@ function main() {
 		download_bedrock_server_latest_file
 		build_docker_image $(get_bedrock_server_latest_ver)
 	fi
+	set_latest_tag_to_latest_ver_image
 }
 
 if [ -z "${BS_IMPORT:-""}" ]; then
