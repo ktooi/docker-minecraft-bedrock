@@ -81,10 +81,10 @@ docker
 
     `env-files/<name>.env` ファイルを作成します。
     `env-files/<name>.env` ファイルはコンテナの環境変数を定義するファイルです。
-    `docker run --env-file` として指定されます。
+    `manage_containers.sh` 実行時に `docker run --env-file` の値として指定されます。
     ファイル名の `<name>` には `containers.lst` で定義したものを指定してください。
 
-    利用可能なパラメータは `env-files/example.env` を参照してください。
+    利用可能なパラメータは [env-files/example.env](env-files/example.env) を参照してください。
 5.  `containers.lst` の定義に則り、コンテナを起動します。
 
     `manage_containers.sh` を実行します。
