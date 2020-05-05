@@ -12,7 +12,10 @@ function run_container() {
 	local __port="$2"
 	local __volume="$3"
 	local __image="$4"
-	docker run -d -p "${__port}:${__port}/udp" --env-file "${BASE_DIR}/env-files/${__name}.env" -e "SERVER_PORT=${__port}" -v "${__volume}:/volume" --name "${__name}" "${__image}"
+	local __env_file="${BASE_DIR}/env-files/${__name}.env"
+	declare -a __opts=(-d -p "${__port}:${__port}/udp" -e "SERVER_PORT=${__port}" -v "${__volume}:/volume" --name "${__name}")
+	[ -e "${__env_file}" ] && __opts+=(--env-file "${__env_file}")
+	docker run "${__opts[@]}" "${__image}"
 }
 
 function start_container() {
