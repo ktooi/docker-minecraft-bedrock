@@ -9,7 +9,7 @@
 : ${BEDROCK_SERVER_DIR:="./downloads"}
 
 __BEDROCK_SERVER_URL=""
-__BEDROCK_SERVER_URL_VER_PAT='https:\/\/minecraft\.azureedge\.net\/bin-linux\/bedrock-server-([0-9]+\.[0-9]+\.[0-9]+\.[0-9])\.zip'
+__BEDROCK_SERVER_URL_VER_PAT='https:\/\/minecraft\.azureedge\.net\/bin-linux\/bedrock-server-([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\.zip'
 function __get_bedrock_server_url() {
 	__BEDROCK_SERVER_URL=$(wget https://www.minecraft.net/en-us/download/server/bedrock/ -O - 2>/dev/null | grep -E -o "${__BEDROCK_SERVER_URL_VER_PAT}")
 }
