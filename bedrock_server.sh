@@ -65,6 +65,10 @@ function main() {
 	if [ "${1:-""}" == "--i-agree-to-meula-and-pp" ]; then
 		I_AGREE_TO_MEULA_AND_PP="yes"
 	fi
+	# Fetch the latest version URL of the BRS and set to cache.
+	# Because the cache can not store the value if called in subprocess (like "$()").
+	get_bedrock_server_url >/dev/null
+
 	if has_bedrock_server_latest_file; then
 		: # Nothing to do.
 	else
