@@ -45,8 +45,8 @@ __EOT__
 for __dir in "${__perm_dirs[@]}"
 do
   [ ! -d /volume/${__dir} ] && mkdir /volume/${__dir}
-  [ -d ./${__dir} ] && rmdir ./${__dir}
-  ln -s /volume/${__dir} ./${__dir}
+  [ -d ./${__dir} -a ! -L ./${__dir} ] && rmdir ./${__dir}
+  [ ! -L ./${__dir} ] && ln -s /volume/${__dir} ./${__dir}
 done
 
 # Prepare the permanent files.
@@ -54,8 +54,8 @@ done
 for __file in "${__perm_files[@]}"
 do
   [ ! -f /volume/${__file} ] && touch /volume/${__file}
-  [ -f ./${__file} ] && rm ./${__file}
-  ln -s /volume/${__file} ./${__file}
+  [ -f ./${__file} -a ! -L ./${__file} ] && rm ./${__file}
+  [ ! -L ./${__file} ] && ln -s /volume/${__file} ./${__file}
 done
 
 ./${BEDROCK_SERVER_BIN:-"bedrock_server"}
