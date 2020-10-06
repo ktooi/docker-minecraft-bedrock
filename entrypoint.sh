@@ -32,6 +32,12 @@ tick-distance=${TICK_DISTANCE:-"4"}
 default-player-permission-level=${DEFAULT_PLAYER_PERMISSION_LEVEL:-"member"}
 texturepack-required=${TEXTUREPACK_REQUIRED:-"false"}
 content-log-file-enabled=${CONTENT_LOG_FILE_ENABLED:-"false"}
+compression-threshold=${COMPRESSION_THRESHOLD:-"1"}
+server-authoritative-movement=${SERVER_AUTHORITATIVE_MOVEMENT:-"true"}
+player-movement-score-threshold=${PLAYER_MOVEMENT_SCORE_THRESHOLD:-"20"}
+player-movement-distance-threshold=${PLAYER_MOVEMENT_DISTANCE_THRESHOLD:-"0.3"}
+player-movement-duration-threshold-in-ms=${PLAYER_MOVEMENT_DURATION_THRESHOLD_IN_MS:-"500"}
+correct-player-movement=${CORRECT_PLAYER_MOVEMENT:-"false"}
 __EOT__
 
 # Prepare the permanent directories.
