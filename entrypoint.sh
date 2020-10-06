@@ -52,4 +52,4 @@ do
   ln -s /volume/${__file} ./${__file}
 done
 
-./bedrock_server
+./${BEDROCK_SERVER_BIN:-"bedrock_server"}
