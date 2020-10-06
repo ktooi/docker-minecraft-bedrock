@@ -61,6 +61,11 @@ function set_latest_tag_to_latest_ver_image() {
 	docker tag "${REPOSITORY}:$(get_latest_ver_of_image)" "${REPOSITORY}:latest"
 }
 
+function has_bedrock_server_image() {
+	local __ver="$1"
+	[ -n "$(docker images "${REPOSITORY}:${__ver}" --format {{.Tag}})" ]
+}
+
 function main() {
 	if [ "${1:-""}" == "--i-agree-to-meula-and-pp" ]; then
 		I_AGREE_TO_MEULA_AND_PP="yes"
@@ -73,7 +78,11 @@ function main() {
 		: # Nothing to do.
 	else
 		download_bedrock_server_latest_file
-		build_docker_image $(get_bedrock_server_latest_ver)
+	fi
+	__brs_latest_var=$(get_bedrock_server_latest_ver)
+	if ! has_bedrock_server_image "${__brs_latest_var}"; then
+		# If the latest version of the BRS image does not exist, build it.
+		build_docker_image "${__brs_latest_var}"
 	fi
 	set_latest_tag_to_latest_ver_image
 }
