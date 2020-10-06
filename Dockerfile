@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
   libcurl4
 WORKDIR /opt/bedrock
 COPY --from=unzip /usr/local/src/bedrock /opt/bedrock
+ARG BEDROCK_SERVER_VER=1.12.1.1
 RUN echo $BEDROCK_SERVER_VER > bedrock_server_version
 COPY ./entrypoint.sh ./
 EXPOSE 19132/udp
