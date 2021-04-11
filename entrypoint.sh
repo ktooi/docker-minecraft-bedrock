@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ${BEDROCK_SERVER_BIN:="bedrock_server"}
+
 # Specify the permanent directories.
 # These directories will load from docker volume and store to docker volume.
 # 永続化するディレクトリを指定。
@@ -58,4 +60,5 @@ do
   [ ! -L ./${__file} ] && ln -s /volume/${__file} ./${__file}
 done
 
-./${BEDROCK_SERVER_BIN:-"bedrock_server"}
+chmod 755 ./${BEDROCK_SERVER_BIN}
+exec ./${BEDROCK_SERVER_BIN}
