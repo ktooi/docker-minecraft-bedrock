@@ -11,7 +11,7 @@
 __BEDROCK_SERVER_URL=""
 __BEDROCK_SERVER_URL_VER_PAT='https:\/\/minecraft\.azureedge\.net\/bin-linux\/bedrock-server-([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\.zip'
 function __get_bedrock_server_url() {
-	__BEDROCK_SERVER_URL=$(wget https://www.minecraft.net/en-us/download/server/bedrock/ -O - 2>/dev/null | grep -E -o "${__BEDROCK_SERVER_URL_VER_PAT}")
+	__BEDROCK_SERVER_URL=$(curl -Ls https://www.minecraft.net/en-us/download/server/bedrock/ 2>/dev/null | grep -E -o "${__BEDROCK_SERVER_URL_VER_PAT}")
 }
 
 function get_bedrock_server_url() {
@@ -41,7 +41,7 @@ function ask_agree_meula() {
 function download_bedrock_server_latest_file() {
 	ask_agree_meula
 	if [ "${I_AGREE_TO_MEULA_AND_PP}" == "yes" ]; then
-		wget $(get_bedrock_server_url) -O ${BASE_DIR}/${BEDROCK_SERVER_DIR}/$(get_bedrock_server_latest_filename)
+		curl -s $(get_bedrock_server_url) -o "${BASE_DIR}/${BEDROCK_SERVER_DIR}/$(get_bedrock_server_latest_filename)"
 	else
 		echo "You must agree to Minecraft End User License Agreement and Privacy Policy."
 		return 1
