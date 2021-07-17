@@ -8,10 +8,12 @@
 # BEDROCK_SERVER_DIR は相対パスでなければなりません。
 : ${BEDROCK_SERVER_DIR:="./downloads"}
 
+: ${USER_AGENT:="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
+
 __BEDROCK_SERVER_URL=""
 __BEDROCK_SERVER_URL_VER_PAT='https:\/\/minecraft\.azureedge\.net\/bin-linux\/bedrock-server-([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\.zip'
 function __get_bedrock_server_url() {
-	__BEDROCK_SERVER_URL=$(curl -Ls https://www.minecraft.net/en-us/download/server/bedrock/ 2>/dev/null | grep -E -o "${__BEDROCK_SERVER_URL_VER_PAT}")
+	__BEDROCK_SERVER_URL=$(curl -A "${USER_AGENT}" -Ls https://www.minecraft.net/en-us/download/server/bedrock/ 2>/dev/null | grep -E -o "${__BEDROCK_SERVER_URL_VER_PAT}")
 }
 
 function get_bedrock_server_url() {
@@ -41,7 +43,7 @@ function ask_agree_meula() {
 function download_bedrock_server_latest_file() {
 	ask_agree_meula
 	if [ "${I_AGREE_TO_MEULA_AND_PP}" == "yes" ]; then
-		curl -s $(get_bedrock_server_url) -o "${BASE_DIR}/${BEDROCK_SERVER_DIR}/$(get_bedrock_server_latest_filename)"
+		curl -A "${USER_AGENT}" -s $(get_bedrock_server_url) -o "${BASE_DIR}/${BEDROCK_SERVER_DIR}/$(get_bedrock_server_latest_filename)"
 	else
 		echo "You must agree to Minecraft End User License Agreement and Privacy Policy."
 		return 1
