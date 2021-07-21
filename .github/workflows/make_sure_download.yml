@@ -16,15 +16,15 @@ jobs:
           . ./bedrock_server.sh
 
           # 事前処理
-          mkdir -pv "${BEDROCK_SERVER_DIR}"
-          get_bedrock_server_url >/dev/null
+          mkdir -pv "${BASE_DIR}/${BEDROCK_SERVER_DIR}"
+          get_bedrock_server_url
 
           # bedrock-server のファイルの URL を取得できているか確認。
-          test -n $(get_bedrock_server_url)
+          test -n $(get_bedrock_server_url) || { echo "Failed: Can not find the bedrock-server URL."; false; }
 
           # bedrock-server のファイルをダウンロードできているか確認。
           download_bedrock_server_latest_file
-          test -n $(find "${BASE_DIR}/${BEDROCK_SERVER_DIR}" -type f)
+          test -n $(find "${BASE_DIR}/${BEDROCK_SERVER_DIR}" -type f -name "bedrock-server-*.zip") || { echo "Failed: Can not download the bedrock-server."; false; }
         env:
           BS_IMPORT: yes
           I_AGREE_TO_MEULA_AND_PP: yes
