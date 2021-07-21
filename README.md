@@ -1,3 +1,5 @@
+[![TestDownload](https://github.com/ktooi/docker-minecraft-bedrock/workflows/TestDownload/badge.svg)](https://github.com/ktooi/docker-minecraft-bedrock/actions?query=workflow%3ATestDownload+branch%3Amain)
+
 # docker-minecraft-bedrock
 
 このプロジェクトは、 Docker がインストールされた Linux サーバ上で、超簡単に Minecraft 統合版のサーバ (bedrock-server) を構築し、運用する為のものです。
