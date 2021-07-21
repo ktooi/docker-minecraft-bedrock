@@ -1,6 +1,11 @@
 name: Make sure the script can be download
 
-on: [push]
+on:
+  push:
+    branches:
+      - "*"
+  schedule:
+    cron: "30 23 * * *"
 
 jobs:
   make_sure_download:
@@ -9,7 +14,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - name: Lint with flake8
+      - name: Make sure that bedrock_server.sh can download bedrock-server.
         run: |
           # bedrock_server.sh をインポートする。
           # (環境変数と関数定義のみを実施し、メイン処理は実行しない。)
