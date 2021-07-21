@@ -1,22 +1,27 @@
 # docker-minecraft-bedrock
 
-このプロジェクトは、超簡単に Minecraft 統合版のサーバ (bedrock-server) を構築し、運用する為のものです。
+このプロジェクトは、 Docker がインストールされた Linux サーバ上で、超簡単に Minecraft 統合版のサーバ (bedrock-server) を構築し、運用する為のものです。
 
 このプロジェクトには次の特徴があります。
 
 *   bedrock-server の更新やセーブデータのバックアップをスクリプト化することで、 bedrock-server を全自動で運用できる。
-*   起動するコンテナ毎に、 bedrock-server のバージョンを指定できる。
+*   起動するコンテナ毎に、 bedrock-server のバージョンを指定したり、自動更新するよう設定できる。
 *   bedrock-server のファイルを各利用者の環境でダウンロードし、 Docker Image をビルドすることで[マインクラフト エンドユーザーライセンス規約](https://account.mojang.com/terms)に適合する(bedrock-server の再頒布を行わない)。
 
 ## Getting Started
 
 ### Prerequisites
 
-このプロジェクトを利用するためには、下記のソフトウェアやライブラリがセットアップされている必要があります。
+このプロジェクトを利用するためには、 Linux サーバ上で下記のソフトウェアやライブラリがセットアップされている必要があります。
 
 ```
 docker
 ```
+
+動作確認を行っている環境は次の通りです。
+
+*   Debial 9.13
+*   Docker version 18.09.1
 
 また、 bedrock-server を利用する為に、下記の利用規約にも同意する必要があります。
 
@@ -25,7 +30,7 @@ docker
 
 ### Installing
 
-1.  このプロジェクトをダウンロードもしくはクローンし、展開したディレクトリに移動します。
+1.  このプロジェクトを Linux サーバ上にダウンロードもしくはクローンし、展開したディレクトリに移動します。
 2.  Minecraft 統合版サーバの Docker Image を作成します。
 
     `bedrock_server.sh` を実行します。
