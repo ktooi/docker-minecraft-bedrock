@@ -1,4 +1,4 @@
-name: Make sure the script can be download
+name: TestDownload
 
 on:
   push:
