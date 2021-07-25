@@ -1,2 +1,4 @@
-example	19132	minecraft_volume	bedrock:latest
-my_awesome_minecraft	29132	minecraft_creative_volume	bedrock:1.14.32.1
+# Comment start with "#" in this file.
+# このファイルでは "#" でコメントできます。
+example	19132	minecraft_volume	bedrock:latest  # Allow comments at the end of lines in this file.
+my_awesome_minecraft	29132	minecraft_creative_volume	bedrock:1.14.32.1  # 行末にコメントすることも可能です。

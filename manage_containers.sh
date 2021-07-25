@@ -35,7 +35,7 @@ function get_container_id() {
 
 function read_containers_lst() {
 	local IFS=$'\n'
-	CONTAINERS=($(cat ${CONTAINERS_LST}))
+	CONTAINERS=($(sed -e 's/[ \t]*#.*$//' -e '/^[ \t]*$/d' ${CONTAINERS_LST}))
 }
 
 function get_container_id() {
