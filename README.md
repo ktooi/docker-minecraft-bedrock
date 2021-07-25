@@ -33,7 +33,21 @@ curl
 
 ### Installing
 
-1.  このプロジェクトを Linux サーバ上にダウンロードもしくはクローンし、展開したディレクトリに移動します。
+1.  このプロジェクトを Linux サーバ上にて `git clone` もしくは tar.gz をダウンロードし、展開したディレクトリに移動します。
+    *   git clone する場合
+
+        ```shell-session
+        # git clone https://github.com/ktooi/docker-minecraft-bedrock.git
+        # cd docker-minecraft-bedrock
+        ```
+
+    *   tar.gz でダウンロードする場合
+
+        ```shell-session
+        # curl -L https://github.com/ktooi/docker-minecraft-bedrock/archive/refs/heads/master.tar.gz -o docker-minecraft-bedrock-master.tar.gz
+        # cd docker-minecraft-bedrock-master
+        ```
+
 2.  Minecraft 統合版サーバの Docker Image を作成します。
 
     `bedrock_server.sh` を実行します。
