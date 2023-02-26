@@ -165,9 +165,9 @@ Addon を導入し、コンテナ上で動かしている Minecraft 統合版サ
     total 0
     lrwxrwxrwx 1 root root 57 Feb 26 21:45 'LunaRTX Free 1.19' -> ../by-uuid_ver/010c9a9a-1c7f-4710-8fe0-321031eb0754_0_0_1
     ```
-3.  コンテナごとに `addons/&lt;name&gt;.addons` ファイルを作成します。
+3.  コンテナごとに `addons/<name>.addons` ファイルを作成します。
 
-    `&lt;name&gt;` は `containers.lst` で指定したコンテナの名前です。
+    `<name>` は `containers.lst` で指定したコンテナの名前です。
     有効にする Addon のファイルパスを、 `addons/extracted/` より下の部分から指定します。
 
     `example-be` にて `LunaRTX Free 1.19.mcpack` を有効にする場合は次のようになります。
@@ -186,7 +186,7 @@ Addon を導入し、コンテナ上で動かしている Minecraft 統合版サ
 
 **■ 注意**
 
-Addon の制約により、 Minecraft 統合版のバージョンを固定したい場合には、 `containers.lst` で `&lt;image&gt;` を指定する際に `bedrock:latest` ではなく `bedrock:w.x.y.z` もしくは `bedrock:w.x` 形式でバージョンを指定してください。
+Addon の制約により、 Minecraft 統合版のバージョンを固定したい場合には、 `containers.lst` で `<image>` を指定する際に `bedrock:latest` ではなく `bedrock:w.x.y.z` もしくは `bedrock:w.x` 形式でバージョンを指定してください。
 
 ---
 
