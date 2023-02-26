@@ -28,11 +28,6 @@ function stop_container() {
 	docker stop "${__name}"
 }
 
-function get_container_id() {
-	local __name="$1"
-	docker ps -a -f "name=${__name}" --format '{.ID}'
-}
-
 function read_containers_lst() {
 	local IFS=$'\n'
 	CONTAINERS=($(sed -e 's/[ \t]*#.*$//' -e '/^[ \t]*$/d' ${CONTAINERS_LST}))
@@ -40,7 +35,7 @@ function read_containers_lst() {
 
 function get_container_id() {
 	local __name="$1"
-	docker ps -a -f "name=${__name}" --format '{{.ID}}'
+	docker ps -a -f "name=/${__name}\$" --format '{{.ID}}'
 }
 
 function get_container_image() {
