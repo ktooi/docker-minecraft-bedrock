@@ -1,6 +1,16 @@
 #!/bin/bash
 
+: ${LEVEL_NAME:="level"}
+
+: ${BASE_DIR:="$(cd $(dirname $0); pwd)"}
 : ${BEDROCK_SERVER_BIN:="bedrock_server"}
+: ${WORLD_DIR:="/volume/worlds/${LEVEL_NAME}"}
+: ${ADDONS_DIR:="/addons"}
+: ${ADDON_LST:="/addons.lst"}
+: ${RESOURCE_PACKS_DIR:="${BASE_DIR}/resource_packs"}
+: ${BEHAVIOR_PACKS_DIR:="${BASE_DIR}/behavior_packs"}
+: ${WORLD_RESOURCE_PACKS_FILE:="${WORLD_DIR}/world_resource_packs.json"}
+: ${WORLD_BEHAVIOR_PACKS_FILE:="${WORLD_DIR}/world_behavior_packs.json"}
 
 # Specify the permanent directories.
 # These directories will load from docker volume and store to docker volume.
@@ -59,6 +69,52 @@ do
   [ -f ./${__file} -a ! -L ./${__file} ] && rm ./${__file}
   [ ! -L ./${__file} ] && ln -s /volume/${__file} ./${__file}
 done
+
+
+# ここから Addon 関連の処理
+
+function read_addons() {
+	local IFS=$'\n'
+	ADDONS=($(sed -e 's/[ \t]*#.*$//' -e '/^[ \t]*$/d' ${ADDON_LST}))
+}
+
+function set_addon() {
+	local addon="$1"
+	local dst_packs_dir="$2"
+	local dst_packs_file="$3"
+	if [ ! -e "${dst_packs_file}" ]; then
+		echo "[" > "${dst_packs_file}"
+	else
+		echo "," >> "${dst_packs_file}"
+	fi
+	__packs_line="$(cat "${ADDONS_DIR}/${addon}/.docker-bedrock.json")"
+	echo -n "${__packs_line}" >> "${dst_packs_file}"
+	__dst_packs_addon_dir="${dst_packs_dir}/$(basename "${addon}"
+	[ ! -L "${__dst_packs_addon_dir}" ] && ln -s "${ADDONS_DIR}/${addon}" "${__dst_packs_addon_dir}"
+
+	return 0
+}
+
+# world_*_packs.json は冪等性を担保する為に毎回削除し、必要に応じて新規作成する。
+[ -e "${WORLD_RESOURCE_PACKS_FILE}" ] && rm "${WORLD_RESOURCE_PACKS_FILE}"
+[ -e "${WORLD_BEHAVIOR_PACKS_FILE}" ] && rm "${WORLD_BEHAVIOR_PACKS_FILE}"
+if [ -e "${ADDON_LST}" ]; then
+	read_addons
+	for __addon in "${ADDONS[@]}"
+	do
+		__type=$(awk -F'/' '{print $1}' <<< "${__addon}")
+		if [ "${__type}" == "resources" ]; then
+			__packs_dir="${RESOURCE_PACKS_DIR}"
+			__packs_file="${WORLD_RESOURCE_PACKS_FILE}"
+		elif [ "${__type}" == "data" ]; then
+			__packs_dir="${BEHAVIOR_PACKS_DIR}"
+			__packs_file="${WORLD_BEHAVIOR_PACKS_FILE}"
+		fi
+		set_addon "${__addon}" "${__packs_dir}" "${__packs_file}"
+	done
+	[ -e "${WORLD_RESOURCE_PACKS_FILE}" ] && echo "]" >> "${WORLD_RESOURCE_PACKS_FILE}"
+	[ -e "${WORLD_BEHAVIOR_PACKS_FILE}" ] && echo "]" >> "${WORLD_BEHAVIOR_PACKS_FILE}"
+fi
 
 chmod 755 ./${BEDROCK_SERVER_BIN}
 exec ./${BEDROCK_SERVER_BIN}

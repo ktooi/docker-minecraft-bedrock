@@ -80,7 +80,7 @@ curl
     *   &lt;name&gt; : コンテナ名です。後述する `env-files/*.env` のファイル名としても利用します。
     *   &lt;port&gt; : コンテナが待ち受けるポート番号(udp)です。
     *   &lt;volume&gt; : セーブデータ等を保存する Docker Volume の名前です。
-    *   &lt;image&gt; : コンテナが利用する Docker Image の名前です。 `bedrock:1.14.32.1`, `bedrock:latest` のように指定します。
+    *   &lt;image&gt; : コンテナが利用する Docker Image の名前です。 `bedrock:1.14.32.1`, `bedrock:1.14`, `bedrock:latest` のように指定します。
         *   利用可能なイメージやタグは次のコマンドで確認できます。
 
             ```shell-session
@@ -130,6 +130,82 @@ curl
    ```
 
 ### Connecting
+
+### Addons
+
+このプロジェクトは一部の Addon (Mod) に対応しています。具体的には次のタイプの Addon を利用できるはずです。
+
+* resources
+
+Addon を導入し、コンテナ上で動かしている Minecraft 統合版サーバに適用する手順は次の通りです。
+例示では `LunaRTX Free 1.19.mcpack` を利用する場合の物を記載します。
+
+1.  Addon をダウンロードし、このプロジェクトの `addons/` ディレクトリに配置します。
+
+    ダウンロードした Addon (`*.mcpack`, `*.mcworld`) を `addons/` ディレクトリに配置してください。
+
+    ```shell-session
+    # ls -l addons/
+    drwxr-xr-x 5 root root     4096 Feb 26 23:35  extracted
+    -rw-r--r-- 1 root root 87438989 Feb 19 01:24 'LunaRTX Free 1.19.mcpack'
+    ```
+    ※ `extracted` ディレクトリは存在しない場合もあります。
+
+2.  配置した Addon を展開します。
+
+    `manage_containers.sh` を実行すると、配置した Addon を展開します。
+
+    ```shell-session
+    # bash ./manage_containers.sh
+    ```
+    展開された Addon は `addons/extracted/` ディレクトリ配下に存在します。
+
+    ```shell-session
+    # ls -l addons/extracted/resources/by-name/
+    total 0
+    lrwxrwxrwx 1 root root 57 Feb 26 21:45 'LunaRTX Free 1.19' -> ../by-uuid_ver/010c9a9a-1c7f-4710-8fe0-321031eb0754_0_0_1
+    ```
+3.  コンテナごとに `addons/&lt;name&gt;.addons` ファイルを作成します。
+
+    `&lt;name&gt;` は `containers.lst` で指定したコンテナの名前です。
+    有効にする Addon のファイルパスを、 `addons/extracted/` より下の部分から指定します。
+
+    `example-be` にて `LunaRTX Free 1.19.mcpack` を有効にする場合は次のようになります。
+    ```shell-session
+    # vim addons/example-be.addons
+    # cat addons/example-be.addons
+    resources/by-name/LunaRTX Free 1.19
+    ```
+4.  コンテナを再起動します。
+
+    `docker` コマンドを利用してコンテナを再起動します。
+
+    ```shell-session
+    # docker restart example-be
+    ```
+
+**■ 注意**
+
+Addon の制約により、 Minecraft 統合版のバージョンを固定したい場合には、 `containers.lst` で `&lt;image&gt;` を指定する際に `bedrock:latest` ではなく `bedrock:w.x.y.z` もしくは `bedrock:w.x` 形式でバージョンを指定してください。
+
+---
+
+コンテナで動作している `entrypoint.sh` が古い場合、 Addon を利用できない場合があります。
+コンテナの `entrypoint.sh` が古くなっているかは、次のコマンドで確認することができます。
+
+```shell-session
+# md5sum entrypoint.sh  # リポジトリ上の entrypoint.sh のハッシュ値を確認。
+# docker exec <name> md5sum entrypoint.sh  # <name> で指定したコンテナ上の entrypoint.sh のハッシュ値を確認。
+```
+
+上記2つのコマンドの結果から、ハッシュ値が異なっている場合にはコンテナ上の `entrypoint.sh` が古くなっている可能性があります。
+
+最新版の Minecraft 統合版のコンテナイメージを利用している場合は、次のコマンドでイメージを再ビルドし、コンテナを再作成することで Addon に対応できるようになります。
+
+```shell-session
+# bash ./bedrock_server.sh --force-build
+# bash ./manage_containers.sh
+```
 
 ## Authors
 

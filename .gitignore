@@ -1,5 +1,9 @@
 bedrock-server-*.zip
 /containers.lst
+addons/*.addons
+addons/*.mcpack
+addons/*.mcworld
+addons/extracted/*
 backup/*.tar.gz
 env-files/*.env
 !env-files/example.env
