@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ${BEDROCK_SERVER_BIN:="bedrock_server"}
+: ${BEDROCK_SERVER_BIN:="bedrock_server"}
 
 # Specify the permanent directories.
 # These directories will load from docker volume and store to docker volume.
