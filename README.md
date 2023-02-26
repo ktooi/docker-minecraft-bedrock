@@ -91,6 +91,7 @@ curl
             bedrock             1.14.32.1           9b4d35d2da38        5 weeks ago         309MB
             ```
         *   `bedrock:1.14.32.1` のように、特定のバージョンを指定した場合には、そのコンテナは指定したバージョンで動作し続けます。
+        *   `bedrock:1.14` のように、マイナーバージョンまでを指定した場合には、そのコンテナは指定したマイナーバージョンの Docker Image が更新されるたびに `manage_containers.sh` により停止・再作成・起動され、そのマイナーバージョンの最新版の bedrock-server で動作し続けます。
         *   `bedrock:latest` と指定した場合には、そのコンテナは Docker Image が更新されるたびに `manage_containers.sh` により停止・再作成・起動され、常に最新版の bedrock-server で動作し続けます。
 
     e.g.,

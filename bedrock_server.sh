@@ -63,6 +63,11 @@ function set_latest_tag_to_latest_ver_image() {
 	docker tag "${REPOSITORY}:$(get_latest_ver_of_image)" "${REPOSITORY}:latest"
 }
 
+function set_minor_tag_to_latest_ver_image() {
+	__latest_ver=$(get_latest_ver_of_image)
+	docker tag "${REPOSITORY}:${__latest_ver}" "${REPOSITORY}:$(sed -e "s/^\([0-9]\+\.[0-9]\+\)\..*$/\1/" <<< "${__latest_ver}" )"
+}
+
 function has_bedrock_server_image() {
 	local __ver="$1"
 	[ -n "$(docker images "${REPOSITORY}:${__ver}" --format {{.Tag}})" ]
@@ -90,6 +95,7 @@ function main() {
 		build_docker_image "${__brs_latest_var}"
 	fi
 	set_latest_tag_to_latest_ver_image
+	set_minor_tag_to_latest_ver_image
 }
 
 if [ -z "${BS_IMPORT:-""}" ]; then
