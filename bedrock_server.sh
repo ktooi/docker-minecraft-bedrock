@@ -72,6 +72,9 @@ function main() {
 	if [ "${1:-""}" == "--i-agree-to-meula-and-pp" ]; then
 		I_AGREE_TO_MEULA_AND_PP="yes"
 	fi
+	if [ "${1:-""}" == "--force-build" ]; then
+		FORCE_BUILD="yes"
+	fi
 	# Fetch the latest version URL of the BRS and set to cache.
 	# Because the cache can not store the value if called in subprocess (like "$()").
 	get_bedrock_server_url >/dev/null
@@ -82,7 +85,7 @@ function main() {
 		download_bedrock_server_latest_file
 	fi
 	__brs_latest_var=$(get_bedrock_server_latest_ver)
-	if ! has_bedrock_server_image "${__brs_latest_var}"; then
+	if ! has_bedrock_server_image "${__brs_latest_var}" || [ "${FORCE_BUILD:-""}" == "yes" ]; then
 		# If the latest version of the BRS image does not exist, build it.
 		build_docker_image "${__brs_latest_var}"
 	fi
