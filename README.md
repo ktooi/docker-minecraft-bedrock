@@ -23,7 +23,7 @@ curl
 
 動作確認を行っている環境は次の通りです。
 
-*   Debial 9.13
+*   Debian 9.13
 *   Docker version 18.09.1
 
 また、 bedrock-server を利用する為に、下記の利用規約にも同意する必要があります。
