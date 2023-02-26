@@ -89,7 +89,7 @@ function set_addon() {
 	fi
 	__packs_line="$(cat "${ADDONS_DIR}/${addon}/.docker-bedrock.json")"
 	echo -n "${__packs_line}" >> "${dst_packs_file}"
-	__dst_packs_addon_dir="${dst_packs_dir}/$(basename "${addon}"
+	__dst_packs_addon_dir="${dst_packs_dir}/$(basename "${addon}")"
 	[ ! -L "${__dst_packs_addon_dir}" ] && ln -s "${ADDONS_DIR}/${addon}" "${__dst_packs_addon_dir}"
 
 	return 0
